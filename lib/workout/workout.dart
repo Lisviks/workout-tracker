@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wortra/shared/bottom_nav.dart';
 
 class WorkoutScreen extends StatelessWidget {
   const WorkoutScreen({super.key});
@@ -70,11 +71,7 @@ class WorkoutScreen extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, 'workout'),
-        tooltip: 'New workout',
-        child: const Icon(Icons.add),
-      ),
+      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }
