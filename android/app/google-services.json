@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "638460723291",
+    "project_id": "workout-tracker-9199a",
+    "storage_bucket": "workout-tracker-9199a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638460723291:android:8a7c851bb1a61003233f7e",
+        "android_client_info": {
+          "package_name": "blog.deividas.wortra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "638460723291-5r2bmo52bj1tad0tbae0e5n0nmk5f58i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYYATYZDhruqTFnycMBqbTlH0J30ISezk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "638460723291-5r2bmo52bj1tad0tbae0e5n0nmk5f58i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
