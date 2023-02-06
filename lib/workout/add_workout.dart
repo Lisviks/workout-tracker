@@ -66,8 +66,15 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
               width: 150.0,
               height: 50.0,
               child: ElevatedButton(
-                onPressed: () => DB().addWorkout(_workoutNameController.text,
-                    _incrementController.text, AuthService().user!.uid),
+                onPressed: () async {
+                  final NavigatorState navState =
+                      context.findAncestorStateOfType<NavigatorState>() ??
+                          Navigator.of(context);
+                  await DB().addWorkout(_workoutNameController.text,
+                      _incrementController.text, AuthService().user!.uid);
+
+                  navState.pushNamedAndRemoveUntil('/', (route) => false);
+                },
                 child: const Text(
                   'Add',
                   style: TextStyle(fontSize: 20.0),

@@ -24,4 +24,12 @@ class DB {
       });
     }
   }
+
+  Future getWorkouts(userId) async {
+    final ref = _db.collection('users').doc(userId);
+    final doc = await ref.get();
+    if (doc.exists) {
+      return doc.data()!['workouts'];
+    }
+  }
 }
