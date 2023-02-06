@@ -72,6 +72,10 @@ class WorkoutScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: const BottomNavBar(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, '/add_workout'),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

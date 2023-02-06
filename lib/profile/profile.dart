@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wortra/services/auth.dart';
-import 'package:wortra/services/firestore.dart';
 
 // ChatGPT code
 class ProfileScreen extends StatelessWidget {

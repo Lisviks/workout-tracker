@@ -12,4 +12,16 @@ class DB {
       });
     }
   }
+
+  Future<void> addWorkout(workoutName, increment, userId) async {
+    final ref = _db.collection('users').doc(userId);
+    final doc = await ref.get();
+    if (doc.exists) {
+      _db.collection('users').doc(userId).update({
+        'workouts': FieldValue.arrayUnion([
+          {'workoutName': workoutName, 'increment': int.parse(increment)}
+        ])
+      });
+    }
+  }
 }
