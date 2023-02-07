@@ -26,75 +26,18 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             if (snapshot.hasData) {
               return Column(
                 children: snapshot.data
-                    .map<Widget>((workout) => WorkoutWidget(
-                          workoutName: workout['workoutName'],
-                        ))
+                    .map<Widget>(
+                      (workout) => WorkoutWidget(
+                        workoutName: workout['workoutName'],
+                        increment: workout['increment'],
+                      ),
+                    )
                     .toList(),
               );
             }
             return const Text('No workouts');
           },
         ),
-        // child: Column(
-        //   children: [
-        //     Row(
-        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //       children: [
-        //         const Text('Pushups'),
-        //         Row(
-        //           children: [
-        //             const Padding(
-        //               padding: EdgeInsets.symmetric(horizontal: 10.0),
-        //               child: Text('10'),
-        //             ),
-        //             IconButton(
-        //               onPressed: () {},
-        //               icon: const Icon(
-        //                 Icons.add,
-        //                 color: Colors.blue,
-        //               ),
-        //             ),
-        //             IconButton(
-        //               onPressed: () {},
-        //               icon: const Icon(
-        //                 Icons.remove,
-        //                 color: Colors.blue,
-        //               ),
-        //             ),
-        //           ],
-        //         )
-        //       ],
-        //     ),
-        //     Row(
-        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //       children: [
-        //         const Text('Crunches'),
-        //         Row(
-        //           children: [
-        //             const Padding(
-        //               padding: EdgeInsets.symmetric(horizontal: 10.0),
-        //               child: Text('10'),
-        //             ),
-        //             IconButton(
-        //               onPressed: () {},
-        //               icon: const Icon(
-        //                 Icons.add,
-        //                 color: Colors.blue,
-        //               ),
-        //             ),
-        //             IconButton(
-        //               onPressed: () {},
-        //               icon: const Icon(
-        //                 Icons.remove,
-        //                 color: Colors.blue,
-        //               ),
-        //             ),
-        //           ],
-        //         )
-        //       ],
-        //     ),
-        //   ],
-        // ),
       ),
       bottomNavigationBar: const BottomNavBar(),
       floatingActionButton: FloatingActionButton(

@@ -19,7 +19,11 @@ class DB {
     if (doc.exists) {
       _db.collection('users').doc(userId).update({
         'workouts': FieldValue.arrayUnion([
-          {'workoutName': workoutName, 'increment': int.parse(increment)}
+          {
+            'workoutName': workoutName,
+            'increment': int.parse(increment),
+            'current': 0,
+          }
         ])
       });
     }
@@ -30,6 +34,21 @@ class DB {
     final doc = await ref.get();
     if (doc.exists) {
       return doc.data()!['workouts'];
+    }
+  }
+
+  Future updateWorkout(userId, workoutName, newCurrent) async {
+    final ref = _db.collection('users').doc(userId);
+    final doc = await ref.get();
+    if (doc.exists) {
+      final List workouts = doc.data()!['workouts'];
+      workouts.forEach((workout) {
+        if (workout['workoutName'] == workoutName) {
+          workout['current'] = newCurrent;
+        }
+      });
+
+      _db.collection('users').doc(userId).update({'workouts': workouts});
     }
   }
 }
