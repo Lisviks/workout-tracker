@@ -19,9 +19,6 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
     var workout = workouts
         .where((item) => item['workoutName'] == widget.workout['workoutName'])
         .toList()[0];
-    setState(() {
-      count = workout['current'];
-    });
     return workout['current'];
   }
 
