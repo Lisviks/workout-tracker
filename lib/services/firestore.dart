@@ -30,18 +30,20 @@ class DB {
     return data;
   }
 
-  Future updateWorkout(userId, workoutName, newCurrent) async {
-    final ref = _db.collection('users').doc(userId);
-    final doc = await ref.get();
-    if (doc.exists) {
-      final List workouts = doc.data()!['workouts'];
-      workouts.forEach((workout) {
-        if (workout['workoutName'] == workoutName) {
-          workout['current'] = newCurrent;
-        }
-      });
-
-      _db.collection('users').doc(userId).update({'workouts': workouts});
+  Future<void> updateWorkout(userId, workoutName, newCurrent) async {
+    Query queryByWorkoutName = _db
+        .collection('users')
+        .doc(userId)
+        .collection('workouts')
+        .where('workoutName', isEqualTo: workoutName);
+    QuerySnapshot querySnapshot = await queryByWorkoutName.get();
+    String workoutId = '';
+    for (var doc in querySnapshot.docs) {
+      workoutId = doc.id;
     }
+    CollectionReference ref =
+        _db.collection('users').doc(userId).collection('workouts');
+    DocumentReference doc = ref.doc(workoutId);
+    doc.update({'current': newCurrent});
   }
 }
