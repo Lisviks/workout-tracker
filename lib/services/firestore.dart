@@ -29,12 +29,12 @@ class DB {
     }
   }
 
-  Future getWorkouts(userId) async {
-    final ref = _db.collection('users').doc(userId);
-    final doc = await ref.get();
-    if (doc.exists) {
-      return doc.data()!['workouts'];
-    }
+  Future<List> getWorkouts(userId) async {
+    CollectionReference ref =
+        _db.collection('users').doc(userId).collection('workouts');
+    QuerySnapshot querySnapshot = await ref.get();
+    final data = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return data;
   }
 
   Future updateWorkout(userId, workoutName, newCurrent) async {

@@ -25,7 +25,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(
-                children: snapshot.data
+                children: snapshot.data!
                     .map<Widget>(
                       (workout) => WorkoutWidget(workout: workout),
                     )
