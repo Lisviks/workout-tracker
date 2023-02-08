@@ -14,19 +14,15 @@ class DB {
   }
 
   Future<void> addWorkout(workoutName, increment, userId) async {
-    final ref = _db.collection('users').doc(userId);
-    final doc = await ref.get();
-    if (doc.exists) {
-      _db.collection('users').doc(userId).update({
-        'workouts': FieldValue.arrayUnion([
-          {
-            'workoutName': workoutName,
-            'increment': int.parse(increment),
-            'current': 0,
-          }
-        ])
-      });
-    }
+    CollectionReference ref =
+        _db.collection('users').doc(userId).collection('workouts');
+    DateTime now = DateTime.now();
+    await ref.add({
+      'workoutName': workoutName,
+      'increment': int.parse(increment),
+      'current': 0,
+      'date': DateTime(now.year, now.month, now.day),
+    });
   }
 
   Future<List> getWorkouts(userId) async {
