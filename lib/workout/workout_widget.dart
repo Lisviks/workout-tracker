@@ -3,14 +3,9 @@ import 'package:wortra/services/auth.dart';
 import 'package:wortra/services/firestore.dart';
 
 class WorkoutWidget extends StatefulWidget {
-  const WorkoutWidget({
-    super.key,
-    required this.workoutName,
-    required this.increment,
-  });
+  const WorkoutWidget({super.key, required this.workout});
 
-  final String workoutName;
-  final int increment;
+  final Map<String, dynamic> workout;
 
   @override
   State<WorkoutWidget> createState() => _WorkoutWidgetState();
@@ -19,19 +14,30 @@ class WorkoutWidget extends StatefulWidget {
 class _WorkoutWidgetState extends State<WorkoutWidget> {
   int count = 0;
 
-  Future<void> add() async {
-    await DB().updateWorkout(
-        AuthService().user!.uid, widget.workoutName, count + widget.increment);
+  Future<int> initCount() async {
+    List workouts = await DB().getWorkouts(AuthService().user!.uid);
+    var workout = workouts
+        .where((item) => item['workoutName'] == widget.workout['workoutName'])
+        .toList()[0];
     setState(() {
-      count += widget.increment;
+      count = workout['current'];
+    });
+    return workout['current'];
+  }
+
+  Future<void> add() async {
+    await DB().updateWorkout(AuthService().user!.uid,
+        widget.workout['workoutName'], count + widget.workout['increment']);
+    setState(() {
+      count += widget.workout['increment'] as int;
     });
   }
 
   Future<void> remove() async {
-    await DB().updateWorkout(
-        AuthService().user!.uid, widget.workoutName, count - widget.increment);
+    await DB().updateWorkout(AuthService().user!.uid,
+        widget.workout['workoutName'], count - widget.workout['increment']);
     setState(() {
-      count -= widget.increment;
+      count -= widget.workout['increment'] as int;
     });
   }
 
@@ -40,12 +46,16 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(widget.workoutName),
+        Text(widget.workout['workoutName']),
         Row(
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Text('$count'),
+              child: FutureBuilder(
+                  future: initCount(),
+                  builder: (context, snapshot) {
+                    return Text('${snapshot.data}');
+                  }),
             ),
             IconButton(
               onPressed: add,

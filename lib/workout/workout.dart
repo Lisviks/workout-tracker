@@ -27,10 +27,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               return Column(
                 children: snapshot.data
                     .map<Widget>(
-                      (workout) => WorkoutWidget(
-                        workoutName: workout['workoutName'],
-                        increment: workout['increment'],
-                      ),
+                      (workout) => WorkoutWidget(workout: workout),
                     )
                     .toList(),
               );
