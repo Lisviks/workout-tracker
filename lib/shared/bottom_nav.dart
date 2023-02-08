@@ -22,6 +22,13 @@ class BottomNavBar extends StatelessWidget {
           ),
           label: 'Profile',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            FontAwesomeIcons.clockRotateLeft,
+            size: 20,
+          ),
+          label: 'History',
+        ),
       ],
       fixedColor: Colors.deepPurple[200],
       onTap: (int index) {
@@ -31,6 +38,9 @@ class BottomNavBar extends StatelessWidget {
             break;
           case 1:
             Navigator.pushNamed(context, '/profile');
+            break;
+          case 2:
+            Navigator.pushNamed(context, '/history');
             break;
         }
       },
