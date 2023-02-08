@@ -6,10 +6,7 @@ class DB {
   Future<void> addUser(userId, user) async {
     final doc = await _db.collection('users').doc(userId).get();
     if (!doc.exists) {
-      await _db.collection('users').doc(userId).set({
-        ...user,
-        'workouts': [],
-      });
+      await _db.collection('users').doc(userId).set({...user});
     }
   }
 
