@@ -26,7 +26,10 @@ class DB {
     CollectionReference ref =
         _db.collection('users').doc(userId).collection('workouts');
     QuerySnapshot querySnapshot = await ref.get();
-    final data = querySnapshot.docs.map((doc) => doc.data()).toList();
+    final data = querySnapshot.docs.map((doc) {
+      _updateHistory(doc.data(), doc.id, userId);
+      return doc.data();
+    }).toList();
     return data;
   }
 
@@ -45,5 +48,37 @@ class DB {
         _db.collection('users').doc(userId).collection('workouts');
     DocumentReference doc = ref.doc(workoutId);
     doc.update({'current': newCurrent});
+  }
+
+  Future<void> _updateHistory(workout, docId, userId) async {
+    CollectionReference workoutsRef =
+        _db.collection('users').doc(userId).collection('workouts');
+    DocumentReference workoutDocRef = workoutsRef.doc(docId);
+    DocumentSnapshot workoutDoc = await workoutDocRef.get();
+    var workoutData = workoutDoc.data() as Map<String, dynamic>;
+
+    int currentDay = DateTime.now().day;
+    int workoutDay =
+        DateTime.parse(workoutData['date'].toDate().toString()).day;
+
+    DateTime now = DateTime.now();
+
+    if (currentDay > workoutDay) {
+      await workoutDocRef.update({
+        'date': DateTime(now.year, now.month, now.day),
+        'current': 0,
+      });
+      CollectionReference historyRef = _db
+          .collection('users')
+          .doc(userId)
+          .collection('workouts')
+          .doc(docId)
+          .collection('history');
+
+      await historyRef.doc().set({
+        'date': workoutData['date'],
+        'numberDone': workoutData['current'],
+      });
+    }
   }
 }
