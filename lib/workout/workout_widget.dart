@@ -51,7 +51,12 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
               child: FutureBuilder(
                   future: initCount(),
                   builder: (context, snapshot) {
-                    return Text('${snapshot.data}');
+                    if (snapshot.hasData) {
+                      count = snapshot.data as int;
+                      return Text('${snapshot.data}');
+                    } else {
+                      return const Text('0');
+                    }
                   }),
             ),
             IconButton(
