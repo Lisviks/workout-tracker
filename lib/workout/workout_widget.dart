@@ -9,6 +9,7 @@ class WorkoutWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final workoutState = context.watch<WorkoutState>();
     Map<String, dynamic> workout = workoutState.workout;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:wortra/services/auth.dart';
+import 'package:wortra/services/firestore.dart';
 
 class WorkoutState extends ChangeNotifier {
   late Map<String, dynamic> workout;
   int count = 0;
 
-  WorkoutState({required this.workout});
+  WorkoutState({required this.workout}) {
+    count = workout['current'];
+  }
 
-  void add() {
-    count += 10;
+  Future<void> add() async {
+    count += workout['increment'] as int;
+    await DB()
+        .updateWorkout(AuthService().user!.uid, workout['workoutName'], count);
     notifyListeners();
   }
 
-  void remove() {
-    count -= 10;
+  Future<void> remove() async {
+    count -= workout['increment'] as int;
+    await DB()
+        .updateWorkout(AuthService().user!.uid, workout['workoutName'], count);
     notifyListeners();
   }
 }
