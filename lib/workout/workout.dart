@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wortra/services/auth.dart';
 import 'package:wortra/services/firestore.dart';
 import 'package:wortra/shared/bottom_nav.dart';
+import 'package:wortra/state/workout_state.dart';
 import 'package:wortra/workout/workout_widget.dart';
 
 class WorkoutScreen extends StatefulWidget {
@@ -27,7 +29,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               return Column(
                 children: snapshot.data!
                     .map<Widget>(
-                      (workout) => WorkoutWidget(workout: workout),
+                      (workout) => ChangeNotifierProvider(
+                          create: (context) => WorkoutState(workout: workout),
+                          child: const WorkoutWidget()),
                     )
                     .toList(),
               );

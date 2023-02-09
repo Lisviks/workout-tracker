@@ -23,6 +23,7 @@ class DB {
   }
 
   Future<List> getWorkouts(userId) async {
+    print('AAAAAAAAAAAAA');
     CollectionReference ref =
         _db.collection('users').doc(userId).collection('workouts');
     QuerySnapshot querySnapshot = await ref.get();
