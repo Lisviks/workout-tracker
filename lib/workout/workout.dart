@@ -6,15 +6,12 @@ import 'package:wortra/shared/bottom_nav.dart';
 import 'package:wortra/state/workout_state.dart';
 import 'package:wortra/workout/workout_widget.dart';
 
-class WorkoutScreen extends StatefulWidget {
-  const WorkoutScreen({super.key});
+class WorkoutScreen extends StatelessWidget {
+  const WorkoutScreen({super.key, required});
 
-  @override
-  State<WorkoutScreen> createState() => _WorkoutScreenState();
-}
-
-class _WorkoutScreenState extends State<WorkoutScreen> {
-  final _workouts = DB().getWorkouts(AuthService().user!.uid);
+  Future<List> init() async {
+    return await DB().getWorkouts(AuthService().user!.uid);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +20,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FutureBuilder(
-          future: _workouts,
+          future: init(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(
