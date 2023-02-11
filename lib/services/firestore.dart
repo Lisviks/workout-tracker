@@ -20,6 +20,7 @@ class DB {
       'increment': int.parse(increment),
       'current': 0,
       'date': DateTime(now.year, now.month, now.day),
+      'deleted': false,
     });
   }
 
@@ -59,6 +60,16 @@ class DB {
         _db.collection('users').doc(userId).collection('workouts').doc(id);
 
     await docRef.update({'workoutName': workoutName, 'increment': increment});
+  }
+
+  Future<void> deleteWorkout(id) async {
+    String userId = AuthService().user!.uid;
+    DocumentReference docRef =
+        _db.collection('users').doc(userId).collection('workouts').doc(id);
+
+    await docRef.update({'deleted': true});
+
+    // await docRef.delete();
   }
 
   Future<void> _updateHistory(userId, workoutRef) async {

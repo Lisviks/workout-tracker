@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:wortra/services/firestore.dart';
 import 'package:wortra/state/workout_state.dart';
 
@@ -85,7 +84,31 @@ class _EditWorkoutDialogState extends State<EditWorkoutDialog> {
                 style: TextStyle(fontSize: 20.0),
               ),
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: SizedBox(
+              height: 50.0,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
+                onPressed: () async {
+                  final NavigatorState navState =
+                      context.findAncestorStateOfType<NavigatorState>() ??
+                          Navigator.of(context);
+
+                  await DB().deleteWorkout(widget.workoutState.workout['id']);
+
+                  navState.pop();
+                },
+                child: const Text(
+                  'Delete',
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
