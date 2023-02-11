@@ -19,7 +19,8 @@ class WorkoutWidget extends StatelessWidget {
               onTap: () {
                 showDialog(
                     context: context,
-                    builder: (context) => EditWorkoutDialog(workout: workout));
+                    builder: (context) =>
+                        EditWorkoutDialog(workoutState: workoutState));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),

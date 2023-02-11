@@ -23,4 +23,15 @@ class WorkoutState extends ChangeNotifier {
         .updateWorkout(AuthService().user!.uid, workout['workoutName'], count);
     notifyListeners();
   }
+
+  Future<void> editWorkout(workoutName, increment) async {
+    workout['workoutName'] = workoutName;
+    workout['increment'] = increment;
+    await DB().editWorkout(
+      workout['id'],
+      workoutName,
+      increment,
+    );
+    notifyListeners();
+  }
 }

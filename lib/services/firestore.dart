@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wortra/services/auth.dart';
 
 class DB {
   final _db = FirebaseFirestore.instance;
@@ -50,6 +51,14 @@ class DB {
         _db.collection('users').doc(userId).collection('workouts');
     DocumentReference doc = ref.doc(workoutId);
     doc.update({'current': newCurrent});
+  }
+
+  Future<void> editWorkout(id, workoutName, increment) async {
+    String userId = AuthService().user!.uid;
+    DocumentReference docRef =
+        _db.collection('users').doc(userId).collection('workouts').doc(id);
+
+    await docRef.update({'workoutName': workoutName, 'increment': increment});
   }
 
   Future<void> _updateHistory(userId, workoutRef) async {

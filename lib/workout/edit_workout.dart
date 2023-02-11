@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:wortra/services/firestore.dart';
+import 'package:wortra/state/workout_state.dart';
 
 class EditWorkoutDialog extends StatefulWidget {
-  const EditWorkoutDialog({super.key, required this.workout});
+  const EditWorkoutDialog({super.key, required this.workoutState});
 
-  final Map workout;
+  final WorkoutState workoutState;
 
   @override
   State<EditWorkoutDialog> createState() => _EditWorkoutDialogState();
@@ -20,8 +23,8 @@ class _EditWorkoutDialogState extends State<EditWorkoutDialog> {
     _workoutNameController = TextEditingController();
     _incrementController = TextEditingController();
 
-    _workoutNameController.text = widget.workout['workoutName'];
-    _incrementController.text = "${widget.workout['increment']}";
+    _workoutNameController.text = widget.workoutState.workout['workoutName'];
+    _incrementController.text = "${widget.workoutState.workout['increment']}";
   }
 
   @override
@@ -65,7 +68,18 @@ class _EditWorkoutDialogState extends State<EditWorkoutDialog> {
           SizedBox(
             height: 50.0,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                final NavigatorState navState =
+                    context.findAncestorStateOfType<NavigatorState>() ??
+                        Navigator.of(context);
+
+                await widget.workoutState.editWorkout(
+                  _workoutNameController.text,
+                  int.parse(_incrementController.text),
+                );
+
+                navState.pop();
+              },
               child: const Text(
                 'Save',
                 style: TextStyle(fontSize: 20.0),
