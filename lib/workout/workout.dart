@@ -18,19 +18,25 @@ class WorkoutScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Workout Tracker')),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
         child: FutureBuilder(
           future: init(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Column(
-                children: snapshot.data!
-                    .map<Widget>(
-                      (workout) => ChangeNotifierProvider(
-                          create: (context) => WorkoutState(workout: workout),
-                          child: const WorkoutWidget()),
-                    )
-                    .toList(),
+              return ListView(
+                children: [
+                  ...snapshot.data!
+                      .map<Widget>(
+                        (workout) => ChangeNotifierProvider(
+                            create: (context) => WorkoutState(workout: workout),
+                            child: const WorkoutWidget()),
+                      )
+                      .toList(),
+                  ElevatedButton(
+                      onPressed: () =>
+                          Navigator.pushNamed(context, '/add_workout'),
+                      child: const Text('Add Workout'))
+                ],
               );
             }
             return const Text('No workouts');
@@ -38,10 +44,6 @@ class WorkoutScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: const BottomNavBar(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, '/add_workout'),
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }
