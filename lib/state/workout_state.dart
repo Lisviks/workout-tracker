@@ -25,13 +25,16 @@ class WorkoutState extends ChangeNotifier {
   }
 
   Future<void> editWorkout(workoutName, increment) async {
-    workout['workoutName'] = workoutName;
-    workout['increment'] = increment;
-    await DB().editWorkout(
-      workout['id'],
-      workoutName,
-      increment,
-    );
-    notifyListeners();
+    if (workout['workoutName'] != workoutName ||
+        workout['increment'] != increment) {
+      workout['workoutName'] = workoutName;
+      workout['increment'] = increment;
+      await DB().editWorkout(
+        workout['id'],
+        workoutName,
+        increment,
+      );
+      notifyListeners();
+    }
   }
 }
