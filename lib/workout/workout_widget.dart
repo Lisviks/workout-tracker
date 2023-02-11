@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wortra/state/workout_state.dart';
+import 'package:wortra/workout/edit_workout.dart';
 
 class WorkoutWidget extends StatelessWidget {
   const WorkoutWidget({super.key});
@@ -16,7 +17,9 @@ class WorkoutWidget extends StatelessWidget {
         Expanded(
           child: InkWell(
               onTap: () {
-                print('tapppppp');
+                showDialog(
+                    context: context,
+                    builder: (context) => EditWorkoutDialog(workout: workout));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
