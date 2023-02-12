@@ -81,7 +81,8 @@ class DB {
       workout['id'] = doc.id;
       CollectionReference historyRef =
           workoutsRef.doc(workout['id']).collection('history');
-      QuerySnapshot historySnapshot = await historyRef.get();
+      QuerySnapshot historySnapshot =
+          await historyRef.orderBy('date', descending: true).get();
       final history = historySnapshot.docs.map((doc) {
         return doc.data() as Map;
       }).toList();
