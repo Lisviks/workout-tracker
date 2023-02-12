@@ -86,7 +86,7 @@ class DB {
       int currentDay = now.day;
       int workoutDay = DateTime.parse(workout['date'].toDate().toString()).day;
 
-      if (currentDay > workoutDay) {
+      if (currentDay > workoutDay && !workout['deleted']) {
         CollectionReference workoutsRef =
             _db.collection('users').doc(userId).collection('workouts');
         DocumentReference workoutDocRef = workoutsRef.doc(workout['id']);
