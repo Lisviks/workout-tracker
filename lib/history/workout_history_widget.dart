@@ -9,6 +9,33 @@ class WorkoutHistoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final historyState = context.watch<HistoryState>();
     Map history = historyState.history;
-    return Text("${history['workoutName']}");
+
+    return ExpansionPanelList(
+      expansionCallback: (index, isExpanded) {
+        historyState.toggleList();
+      },
+      children: [
+        ExpansionPanel(
+            headerBuilder: ((context, isExpanded) {
+              return Text("${history['workoutName']}");
+            }),
+            body: Column(
+              children: history['history'].map<Widget>((e) {
+                final DateTime date =
+                    DateTime.parse(e['date'].toDate().toString());
+                final int day = date.day;
+                final int month = date.month;
+                final int year = date.year;
+                final String formattedDate = '$year/$month/$day';
+
+                return Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Text('$formattedDate - ${e['numberDone'].toString()}'),
+                );
+              }).toList(),
+            ),
+            isExpanded: historyState.isOpen)
+      ],
+    );
   }
 }
