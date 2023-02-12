@@ -25,21 +25,9 @@ class DB {
     });
   }
 
-  // Future<List> getWorkouts(userId) async {
-  //   CollectionReference ref =
-  //       _db.collection('users').doc(userId).collection('workouts');
-  //   await _updateHistory(userId, ref);
-  //   QuerySnapshot querySnapshot = await ref.get();
-  //   final data = querySnapshot.docs.map((doc) {
-  //     var workout = doc.data() as Map;
-  //     workout['id'] = doc.id;
-  //     return workout;
-  //   }).toList();
-  //   return data;
-  // }
-
   Future<List<Workout>> getWorkouts(userId) async {
     var ref = _db.collection('users').doc(userId).collection('workouts');
+    await _updateHistory(userId, ref);
     var snapshot = await ref.get();
     var data = snapshot.docs.map((doc) {
       var workout = doc.data();
@@ -85,8 +73,6 @@ class DB {
         _db.collection('users').doc(userId).collection('workouts').doc(id);
 
     await docRef.update({'deleted': true});
-
-    // await docRef.delete();
   }
 
   Future<List> getHistory(userId) async {
