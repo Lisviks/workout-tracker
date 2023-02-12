@@ -19,27 +19,24 @@ class HistoryScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('History'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-        child: FutureBuilder(
-          future: init(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView(
-                children: [
-                  ...snapshot.data!
-                      .map<Widget>(
-                        (workout) => ChangeNotifierProvider(
-                            create: (context) => HistoryState(history: workout),
-                            child: const WorkoutHistoryWidget()),
-                      )
-                      .toList(),
-                ],
-              );
-            }
-            return const Text('Empty history');
-          },
-        ),
+      body: FutureBuilder(
+        future: init(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView(
+              children: [
+                ...snapshot.data!
+                    .map<Widget>(
+                      (workout) => ChangeNotifierProvider(
+                          create: (context) => HistoryState(history: workout),
+                          child: const WorkoutHistoryWidget()),
+                    )
+                    .toList(),
+              ],
+            );
+          }
+          return const Text('Empty history');
+        },
       ),
     );
   }

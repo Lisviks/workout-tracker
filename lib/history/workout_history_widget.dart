@@ -17,22 +17,29 @@ class WorkoutHistoryWidget extends StatelessWidget {
       children: [
         ExpansionPanel(
             headerBuilder: ((context, isExpanded) {
-              return Text("${history['workoutName']}");
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("${history['workoutName']}"),
+              );
             }),
-            body: Column(
-              children: history['history'].map<Widget>((e) {
-                final DateTime date =
-                    DateTime.parse(e['date'].toDate().toString());
-                final int day = date.day;
-                final int month = date.month;
-                final int year = date.year;
-                final String formattedDate = '$year/$month/$day';
+            body: Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Column(
+                children: history['history'].map<Widget>((e) {
+                  final DateTime date =
+                      DateTime.parse(e['date'].toDate().toString());
+                  final int day = date.day;
+                  final int month = date.month;
+                  final int year = date.year;
+                  final String formattedDate = '$year/$month/$day';
 
-                return Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Text('$formattedDate - ${e['numberDone'].toString()}'),
-                );
-              }).toList(),
+                  return Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child:
+                        Text('$formattedDate - ${e['numberDone'].toString()}'),
+                  );
+                }).toList(),
+              ),
             ),
             isExpanded: historyState.isOpen)
       ],
