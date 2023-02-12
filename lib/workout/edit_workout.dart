@@ -21,8 +21,8 @@ class _EditWorkoutDialogState extends State<EditWorkoutDialog> {
     _workoutNameController = TextEditingController();
     _incrementController = TextEditingController();
 
-    _workoutNameController.text = widget.workoutState.workout['workoutName'];
-    _incrementController.text = "${widget.workoutState.workout['increment']}";
+    _workoutNameController.text = widget.workoutState.workout.workoutName;
+    _incrementController.text = '${widget.workoutState.workout.increment}';
   }
 
   @override
@@ -98,7 +98,7 @@ class _EditWorkoutDialogState extends State<EditWorkoutDialog> {
                           Navigator.of(context);
 
                   await widget.workoutState
-                      .deleteWorkout(widget.workoutState.workout['id']);
+                      .deleteWorkout(widget.workoutState.workout.id);
 
                   navState.pop();
                 },

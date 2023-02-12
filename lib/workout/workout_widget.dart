@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wortra/services/models.dart';
 import 'package:wortra/state/workout_state.dart';
 import 'package:wortra/workout/edit_workout.dart';
 
@@ -9,13 +10,13 @@ class WorkoutWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final workoutState = context.watch<WorkoutState>();
-    Map<String, dynamic> workout = workoutState.workout;
+    Workout workout = workoutState.workout;
 
     return Visibility(
-      maintainSize: !workout['deleted'],
-      maintainAnimation: !workout['deleted'],
-      maintainState: !workout['deleted'],
-      visible: !workout['deleted'],
+      maintainSize: !workout.deleted,
+      maintainAnimation: !workout.deleted,
+      maintainState: !workout.deleted,
+      visible: !workout.deleted,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -29,7 +30,7 @@ class WorkoutWidget extends StatelessWidget {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: Text(workout['workoutName']),
+                  child: Text(workout.workoutName),
                 )),
           ),
           Expanded(
