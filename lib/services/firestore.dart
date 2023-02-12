@@ -41,7 +41,11 @@ class DB {
   Future<List<Workout>> getWorkouts(userId) async {
     var ref = _db.collection('users').doc(userId).collection('workouts');
     var snapshot = await ref.get();
-    var data = snapshot.docs.map((doc) => doc.data());
+    var data = snapshot.docs.map((doc) {
+      var workout = doc.data();
+      workout['id'] = doc.id;
+      return workout;
+    });
     var workouts = data.map((d) => Workout.fromJson({
           ...d,
           'date': d['date'].toDate().toString(),

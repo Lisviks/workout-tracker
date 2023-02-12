@@ -39,32 +39,38 @@ class _EditWorkoutDialogState extends State<EditWorkoutDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text('Workout Name'),
+          const Text(
+            'Workout Name',
+            style: TextStyle(fontSize: 14.0),
+          ),
           Padding(
-            padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+            padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
             child: TextField(
               controller: _workoutNameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
               ),
-              style: const TextStyle(fontSize: 16.0),
+              style: const TextStyle(fontSize: 14.0),
             ),
           ),
-          const Text('Increment'),
+          const Text(
+            'Increment',
+            style: TextStyle(fontSize: 14.0),
+          ),
           Padding(
-            padding: const EdgeInsets.only(top: 16.0, bottom: 20.0),
+            padding: const EdgeInsets.only(top: 8.0, bottom: 12.0),
             child: TextField(
               controller: _incrementController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
               ),
-              style: const TextStyle(fontSize: 16.0),
+              style: const TextStyle(fontSize: 14.0),
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             ),
           ),
           SizedBox(
-            height: 50.0,
+            height: 40.0,
             child: ElevatedButton(
               onPressed: () async {
                 final NavigatorState navState =
@@ -80,14 +86,14 @@ class _EditWorkoutDialogState extends State<EditWorkoutDialog> {
               },
               child: const Text(
                 'Save',
-                style: TextStyle(fontSize: 20.0),
+                style: TextStyle(fontSize: 16.0),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20.0),
+            padding: const EdgeInsets.only(top: 12.0),
             child: SizedBox(
-              height: 50.0,
+              height: 40.0,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
@@ -104,7 +110,7 @@ class _EditWorkoutDialogState extends State<EditWorkoutDialog> {
                 },
                 child: const Text(
                   'Delete',
-                  style: TextStyle(fontSize: 20.0),
+                  style: TextStyle(fontSize: 16.0),
                 ),
               ),
             ),

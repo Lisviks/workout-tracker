@@ -6,9 +6,9 @@ class Workout {
   final String id;
   final int current;
   final DateTime date;
-  final bool deleted;
-  final int increment;
-  final String workoutName;
+  bool deleted;
+  int increment;
+  String workoutName;
 
   Workout(
       {this.id = '',
