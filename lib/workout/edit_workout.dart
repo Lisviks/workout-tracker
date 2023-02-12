@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wortra/services/firestore.dart';
 import 'package:wortra/state/workout_state.dart';
 
 class EditWorkoutDialog extends StatefulWidget {
@@ -98,7 +97,8 @@ class _EditWorkoutDialogState extends State<EditWorkoutDialog> {
                       context.findAncestorStateOfType<NavigatorState>() ??
                           Navigator.of(context);
 
-                  await DB().deleteWorkout(widget.workoutState.workout['id']);
+                  await widget.workoutState
+                      .deleteWorkout(widget.workoutState.workout['id']);
 
                   navState.pop();
                 },

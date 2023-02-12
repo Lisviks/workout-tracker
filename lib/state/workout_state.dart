@@ -37,4 +37,10 @@ class WorkoutState extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> deleteWorkout(id) async {
+    await DB().deleteWorkout(id);
+    workout['deleted'] = true;
+    notifyListeners();
+  }
 }
