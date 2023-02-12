@@ -72,6 +72,26 @@ class DB {
     // await docRef.delete();
   }
 
+  Future<List> getHistory(userId) async {
+    CollectionReference workoutsRef =
+        _db.collection('users').doc(userId).collection('workouts');
+    QuerySnapshot querySnapshot = await workoutsRef.get();
+    final List<Future> allHistory = querySnapshot.docs.map((doc) async {
+      var workout = doc.data() as Map;
+      workout['id'] = doc.id;
+      CollectionReference historyRef =
+          workoutsRef.doc(workout['id']).collection('history');
+      QuerySnapshot historySnapshot = await historyRef.get();
+      final history = historySnapshot.docs.map((doc) {
+        return doc.data() as Map;
+      }).toList();
+      workout['history'] = history;
+      return workout;
+    }).toList();
+    final result = await Future.wait(allHistory);
+    return result;
+  }
+
   Future<void> _updateHistory(userId, workoutRef) async {
     QuerySnapshot querySnapshot = await workoutRef.get();
     final workouts = querySnapshot.docs.map((doc) {
