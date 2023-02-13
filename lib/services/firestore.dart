@@ -49,11 +49,8 @@ class DB {
   }
 
   Future<void> editWorkout(id, workoutName, increment) async {
-    String userId = AuthService().user!.uid;
-    DocumentReference docRef =
-        _db.collection('users').doc(userId).collection('workouts').doc(id);
-
-    await docRef.update({'workoutName': workoutName, 'increment': increment});
+    var ref = _db.collection('workouts').doc(id);
+    await ref.update({'workoutName': workoutName, 'increment': increment});
   }
 
   Future<void> deleteWorkout(id) async {
