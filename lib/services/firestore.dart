@@ -13,15 +13,16 @@ class DB {
   }
 
   Future<void> addWorkout(workoutName, increment, userId) async {
-    CollectionReference ref =
-        _db.collection('users').doc(userId).collection('workouts');
+    CollectionReference ref = _db.collection('workouts');
     DateTime now = DateTime.now();
     await ref.add({
+      'userId': userId,
       'workoutName': workoutName,
       'increment': int.parse(increment),
       'current': 0,
       'date': DateTime(now.year, now.month, now.day),
       'deleted': false,
+      'history': [],
     });
   }
 
