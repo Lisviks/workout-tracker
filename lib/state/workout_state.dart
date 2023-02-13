@@ -13,15 +13,13 @@ class WorkoutState extends ChangeNotifier {
 
   Future<void> add() async {
     count += workout.increment;
-    await DB()
-        .updateWorkout(AuthService().user!.uid, workout.workoutName, count);
+    await DB().updateWorkout(workout.id, workout.workoutName, count);
     notifyListeners();
   }
 
   Future<void> remove() async {
     count -= workout.increment;
-    await DB()
-        .updateWorkout(AuthService().user!.uid, workout.workoutName, count);
+    await DB().updateWorkout(workout.id, workout.workoutName, count);
     notifyListeners();
   }
 

@@ -43,21 +43,9 @@ class DB {
     return workouts.toList();
   }
 
-  Future<void> updateWorkout(userId, workoutName, newCurrent) async {
-    Query queryByWorkoutName = _db
-        .collection('users')
-        .doc(userId)
-        .collection('workouts')
-        .where('workoutName', isEqualTo: workoutName);
-    QuerySnapshot querySnapshot = await queryByWorkoutName.get();
-    String workoutId = '';
-    for (var doc in querySnapshot.docs) {
-      workoutId = doc.id;
-    }
-    CollectionReference ref =
-        _db.collection('users').doc(userId).collection('workouts');
-    DocumentReference doc = ref.doc(workoutId);
-    doc.update({'current': newCurrent});
+  Future<void> updateWorkout(workoutId, workoutName, newCurrent) async {
+    var ref = _db.collection('workouts').doc(workoutId);
+    await ref.update({'current': newCurrent});
   }
 
   Future<void> editWorkout(id, workoutName, increment) async {
