@@ -28,7 +28,7 @@ class DB {
 
   Future<List<Workout>> getWorkouts(userId) async {
     var ref = _db.collection('workouts');
-    await _updateHistory(userId, ref);
+    await _updateHistory();
     var snapshot = await ref.where('userId', isEqualTo: userId).get();
     var data = snapshot.docs.map((doc) {
       var workout = doc.data();
@@ -82,10 +82,11 @@ class DB {
     return result;
   }
 
-  Future<void> _updateHistory(userId, workoutRef) async {
-    QuerySnapshot querySnapshot = await workoutRef.get();
-    final workouts = querySnapshot.docs.map((doc) {
-      var workout = doc.data() as Map;
+  Future<void> _updateHistory() async {
+    var ref = _db.collection('workouts');
+    var snapshot = await ref.get();
+    final workouts = snapshot.docs.map((doc) {
+      var workout = doc.data();
       workout['id'] = doc.id;
       return workout;
     }).toList();
@@ -97,27 +98,19 @@ class DB {
       int workoutDay = DateTime.parse(workout['date'].toDate().toString()).day;
 
       if (currentDay > workoutDay && !workout['deleted']) {
-        CollectionReference workoutsRef =
-            _db.collection('users').doc(userId).collection('workouts');
-        DocumentReference workoutDocRef = workoutsRef.doc(workout['id']);
-
-        await workoutDocRef.update(
-          {
-            'date': DateTime(now.year, now.month, now.day),
-            'current': 0,
-          },
-        );
-
-        CollectionReference historyRef = _db
-            .collection('users')
-            .doc(userId)
-            .collection('workouts')
-            .doc(workout['id'])
-            .collection('history');
-
-        await historyRef.doc().set({
-          'date': workout['date'],
+        var docRef = ref.doc(workout['id']);
+        var doc = await docRef.get();
+        var data = doc.data() as Map;
+        List history = data['history'];
+        history.add({
+          'date': data['date'],
           'numberDone': workout['current'],
+        });
+
+        await docRef.update({
+          'history': history,
+          'date': DateTime(now.year, now.month, now.day),
+          'current': 0,
         });
       }
     }
