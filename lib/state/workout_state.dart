@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wortra/services/auth.dart';
 import 'package:wortra/services/firestore.dart';
 import 'package:wortra/services/models.dart';
 

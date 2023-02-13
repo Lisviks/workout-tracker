@@ -3,15 +3,18 @@ part 'models.g.dart';
 
 @JsonSerializable()
 class Workout {
+  final String userId;
   final String id;
   final int current;
   final DateTime date;
+  late List history;
   bool deleted;
   int increment;
   String workoutName;
 
   Workout(
-      {this.id = '',
+      {this.userId = '',
+      this.id = '',
       this.current = 0,
       DateTime? date,
       this.deleted = false,
