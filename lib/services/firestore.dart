@@ -57,11 +57,8 @@ class DB {
   }
 
   Future<void> deleteWorkout(id) async {
-    String userId = AuthService().user!.uid;
-    DocumentReference docRef =
-        _db.collection('users').doc(userId).collection('workouts').doc(id);
-
-    await docRef.update({'deleted': true});
+    var ref = _db.collection('workouts').doc(id);
+    await ref.update({'deleted': true});
   }
 
   Future<List> getHistory(userId) async {
