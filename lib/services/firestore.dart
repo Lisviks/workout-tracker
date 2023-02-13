@@ -43,7 +43,7 @@ class DB {
     return workouts.toList();
   }
 
-  Future<void> updateWorkout(workoutId, workoutName, newCurrent) async {
+  Future<void> updateWorkout(workoutId, newCurrent) async {
     var ref = _db.collection('workouts').doc(workoutId);
     await ref.update({'current': newCurrent});
   }
