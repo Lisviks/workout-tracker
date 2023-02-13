@@ -26,9 +26,9 @@ class DB {
   }
 
   Future<List<Workout>> getWorkouts(userId) async {
-    var ref = _db.collection('users').doc(userId).collection('workouts');
+    var ref = _db.collection('workouts');
     await _updateHistory(userId, ref);
-    var snapshot = await ref.get();
+    var snapshot = await ref.where('userId', isEqualTo: userId).get();
     var data = snapshot.docs.map((doc) {
       var workout = doc.data();
       workout['id'] = doc.id;
