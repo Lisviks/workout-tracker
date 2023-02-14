@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:wortra/services/auth.dart';
 import 'package:wortra/services/models.dart';
 
 class DB {
@@ -13,7 +12,7 @@ class DB {
   }
 
   Future<void> addWorkout(workoutName, increment, userId) async {
-    CollectionReference ref = _db.collection('workouts');
+    var ref = _db.collection('workouts');
     DateTime now = DateTime.now();
     await ref.add({
       'userId': userId,
@@ -59,24 +58,17 @@ class DB {
   }
 
   Future<List> getHistory(userId) async {
-    CollectionReference workoutsRef =
-        _db.collection('users').doc(userId).collection('workouts');
-    QuerySnapshot querySnapshot = await workoutsRef.get();
-    final List<Future> allHistory = querySnapshot.docs.map((doc) async {
-      var workout = doc.data() as Map;
-      workout['id'] = doc.id;
-      CollectionReference historyRef =
-          workoutsRef.doc(workout['id']).collection('history');
-      QuerySnapshot historySnapshot =
-          await historyRef.orderBy('date', descending: true).get();
-      final history = historySnapshot.docs.map((doc) {
-        return doc.data() as Map;
-      }).toList();
-      workout['history'] = history;
-      return workout;
+    var workoutsRef = _db.collection('workouts');
+    var querySnapshot =
+        await workoutsRef.where('userId', isEqualTo: userId).get();
+    final List allHistory = querySnapshot.docs.map((doc) {
+      var workout = doc.data();
+      return {
+        'workoutName': workout['workoutName'],
+        'history': workout['history'],
+      };
     }).toList();
-    final result = await Future.wait(allHistory);
-    return result;
+    return allHistory;
   }
 
   Future<void> _updateHistory() async {
