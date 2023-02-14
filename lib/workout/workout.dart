@@ -8,7 +8,7 @@ import 'package:wortra/state/workout_state.dart';
 import 'package:wortra/workout/workout_widget.dart';
 
 class WorkoutScreen extends StatelessWidget {
-  const WorkoutScreen({super.key, required});
+  const WorkoutScreen({super.key});
 
   Future<List<Workout>> init() async {
     return await DB().getWorkouts(AuthService().user!.uid);
