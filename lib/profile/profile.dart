@@ -82,8 +82,9 @@ class ProfileScreen extends StatelessWidget {
                       for (var val in history) {
                         total += val['numberDone'] as int;
                       }
-                      String average =
-                          (total / history.length).toStringAsFixed(2);
+                      String average = history.isNotEmpty
+                          ? (total / history.length).toStringAsFixed(2)
+                          : '0.0';
 
                       return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
