@@ -57,6 +57,20 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
+            const Padding(
+              padding: EdgeInsets.only(top: 16.0),
+              child: Text(
+                'Daily averages',
+                style: TextStyle(fontSize: 16.0),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Divider(
+                height: 1.0,
+                color: Colors.blueGrey,
+              ),
+            ),
             FutureBuilder(
                 future: getHistory(),
                 builder: (context, snapshot) {
@@ -76,12 +90,11 @@ class ProfileScreen extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                e['workoutName'],
+                                '${e['workoutName']} - ',
                                 style: const TextStyle(
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.bold),
                               ),
-                              const Text(' daily average - '),
                               Text(average),
                             ],
                           ));
