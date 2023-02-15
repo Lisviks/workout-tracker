@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wortra/login/login.dart';
 import 'package:wortra/services/auth.dart';
+import 'package:wortra/shared/nav_bar_handler.dart';
 import 'package:wortra/workout/workout.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class HomeScreen extends StatelessWidget {
             child: Text('error'),
           );
         } else if (snapshot.hasData) {
-          return const WorkoutScreen();
+          return const NavBarHandler();
         } else {
           return const LoginScreen();
         }

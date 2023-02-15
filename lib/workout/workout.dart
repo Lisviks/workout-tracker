@@ -44,7 +44,7 @@ class WorkoutScreen extends StatelessWidget {
           },
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(),
+      // bottomNavigationBar: const BottomNavBar(),
     );
   }
 }
