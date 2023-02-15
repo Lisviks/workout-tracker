@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:wortra/services/auth.dart';
+import 'package:wortra/services/firestore.dart';
 
 // ChatGPT code
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
+
+  Future<List> getHistory() async {
+    return DB().getHistory(AuthService().user!.uid);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +57,38 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
+            FutureBuilder(
+                future: getHistory(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                        children: snapshot.data!.map((e) {
+                      int total = 0;
+                      List history = e['history'];
+                      for (var val in history) {
+                        total += val['numberDone'] as int;
+                      }
+                      String average =
+                          (total / history.length).toStringAsFixed(2);
+
+                      return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                e['workoutName'],
+                                style: const TextStyle(
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const Text(' daily average - '),
+                              Text(average),
+                            ],
+                          ));
+                    }).toList());
+                  }
+                  return const Text('No workouts');
+                }),
             ElevatedButton(
               child: const Text('signout'),
               onPressed: () async {

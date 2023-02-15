@@ -10,8 +10,6 @@ class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
 
   Future<List> init() async {
-    DB().getHistory(AuthService().user!.uid);
-    // return [];
     return await DB().getHistory(AuthService().user!.uid);
   }
 
