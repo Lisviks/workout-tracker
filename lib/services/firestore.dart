@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wortra/services/models.dart';
 
 class DB {
@@ -27,7 +28,7 @@ class DB {
 
   Future<List<Workout>> getWorkouts(userId) async {
     var ref = _db.collection('workouts');
-    await _updateHistory();
+    await _updateHistory(userId);
     var snapshot = await ref.where('userId', isEqualTo: userId).get();
     var data = snapshot.docs.map((doc) {
       var workout = doc.data();
@@ -71,9 +72,9 @@ class DB {
     return allHistory;
   }
 
-  Future<void> _updateHistory() async {
+  Future<void> _updateHistory(userId) async {
     var ref = _db.collection('workouts');
-    var snapshot = await ref.get();
+    var snapshot = await ref.where('userId', isEqualTo: userId).get();
     final workouts = snapshot.docs.map((doc) {
       var workout = doc.data();
       workout['id'] = doc.id;
