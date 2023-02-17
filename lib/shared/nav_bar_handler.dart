@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:wortra/history/history.dart';
 import 'package:wortra/profile/profile.dart';
+import 'package:wortra/state/workouts_state.dart';
 import 'package:wortra/workout/workout.dart';
 
 class NavBarHandler extends StatefulWidget {
@@ -13,10 +15,11 @@ class NavBarHandler extends StatefulWidget {
 
 class _NavBarHandlerState extends State<NavBarHandler> {
   int index = 0;
-  final _buildBody = const [WorkoutScreen(), ProfileScreen(), HistoryScreen()];
 
   @override
   Widget build(BuildContext context) {
+    final workouts = context.watch<WorkoutsState>();
+
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         items: const [
@@ -53,7 +56,11 @@ class _NavBarHandlerState extends State<NavBarHandler> {
       ),
       body: IndexedStack(
         index: index,
-        children: _buildBody,
+        children: [
+          WorkoutScreen(workouts: workouts.workouts),
+          const ProfileScreen(),
+          const HistoryScreen()
+        ],
       ),
     );
   }
