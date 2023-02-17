@@ -57,20 +57,6 @@ class DB {
     await ref.update({'deleted': true});
   }
 
-  Future<List> getHistory(userId) async {
-    var workoutsRef = _db.collection('workouts');
-    var querySnapshot =
-        await workoutsRef.where('userId', isEqualTo: userId).get();
-    final List allHistory = querySnapshot.docs.map((doc) {
-      var workout = doc.data();
-      return {
-        'workoutName': workout['workoutName'],
-        'history': workout['history'],
-      };
-    }).toList();
-    return allHistory;
-  }
-
   Future<void> _updateHistory(userId) async {
     var ref = _db.collection('workouts');
     var snapshot = await ref.where('userId', isEqualTo: userId).get();

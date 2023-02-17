@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wortra/services/auth.dart';
-import 'package:wortra/services/firestore.dart';
+import 'package:wortra/state/workouts_state.dart';
 
 // ChatGPT code
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  Future<List> getHistory() async {
-    return DB().getHistory(AuthService().user!.uid);
-  }
-
   @override
   Widget build(BuildContext context) {
+    final history = context.watch<WorkoutsState>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -71,38 +70,30 @@ class ProfileScreen extends StatelessWidget {
                 color: Colors.blueGrey,
               ),
             ),
-            FutureBuilder(
-                future: getHistory(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                        children: snapshot.data!.map((e) {
-                      int total = 0;
-                      List history = e['history'];
-                      for (var val in history) {
-                        total += val['numberDone'] as int;
-                      }
-                      String average = history.isNotEmpty
-                          ? (total / history.length).toStringAsFixed(2)
-                          : '0.0';
+            Column(
+                children: history.getHistory().map((e) {
+              int total = 0;
+              List history = e['history'];
+              for (var val in history) {
+                total += val['numberDone'] as int;
+              }
+              String average = history.isNotEmpty
+                  ? (total / history.length).toStringAsFixed(2)
+                  : '0.0';
 
-                      return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                '${e['workoutName']} - ',
-                                style: const TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(average),
-                            ],
-                          ));
-                    }).toList());
-                  }
-                  return const Text('No workouts');
-                }),
+              return Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        '${e['workoutName']} - ',
+                        style: const TextStyle(
+                            fontSize: 14.0, fontWeight: FontWeight.bold),
+                      ),
+                      Text(average),
+                    ],
+                  ));
+            }).toList()),
             ElevatedButton(
               child: const Text('signout'),
               onPressed: () async {
