@@ -4,6 +4,7 @@ import 'package:wortra/login/login.dart';
 import 'package:wortra/services/auth.dart';
 import 'package:wortra/services/firestore.dart';
 import 'package:wortra/services/models.dart';
+import 'package:wortra/shared/loading.dart';
 import 'package:wortra/shared/nav_bar_handler.dart';
 import 'package:wortra/state/workouts_state.dart';
 
@@ -22,7 +23,7 @@ class HomeScreen extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
-            child: Text('loading'),
+            child: Loading(),
           );
         } else if (snapshot.hasError) {
           return const Center(
@@ -39,10 +40,8 @@ class HomeScreen extends StatelessWidget {
                     child: const NavBarHandler(),
                   );
                 }
-                // TODO: Loading screen
-                return const Text('loading');
+                return const Loading();
               }));
-          // return const NavBarHandler();
         } else {
           return const LoginScreen();
         }
