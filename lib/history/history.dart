@@ -9,7 +9,7 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final history = context.watch<WorkoutsState>();
+    final workoutState = context.watch<WorkoutsState>();
 
     return Scaffold(
       appBar: AppBar(
@@ -17,8 +17,7 @@ class HistoryScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          ...history
-              .getHistory()
+          ...workoutState.history
               .map<Widget>(
                 (workout) => ChangeNotifierProvider(
                     create: (context) => HistoryState(history: workout),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wortra/history/history_state.dart';
+import 'package:wortra/services/history_model.dart';
 
 class WorkoutHistoryWidget extends StatelessWidget {
   const WorkoutHistoryWidget({super.key});
@@ -8,7 +9,7 @@ class WorkoutHistoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final historyState = context.watch<HistoryState>();
-    Map history = historyState.history;
+    History history = historyState.history;
 
     return ExpansionPanelList(
       expansionCallback: (index, isExpanded) {
@@ -19,13 +20,13 @@ class WorkoutHistoryWidget extends StatelessWidget {
             headerBuilder: ((context, isExpanded) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("${history['workoutName']}"),
+                child: Text(history.workoutName),
               );
             }),
             body: Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
               child: Column(
-                children: history['history'].map<Widget>((e) {
+                children: history.history.map<Widget>((e) {
                   final DateTime date =
                       DateTime.parse(e['date'].toDate().toString());
                   final int day = date.day;

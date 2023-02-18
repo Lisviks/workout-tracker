@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:wortra/services/history_model.dart';
 import 'package:wortra/services/models.dart';
 
 class WorkoutsState extends ChangeNotifier {
   List<Workout> workouts = [];
-  List history = [];
+  List<History> history = [];
 
-  WorkoutsState({required this.workouts});
-
-  List getHistory() {
-    List history = [];
-
+  WorkoutsState({required this.workouts}) {
     for (var workout in workouts) {
       history.add(
-          {'workoutName': workout.workoutName, 'history': workout.history});
+          History(workoutName: workout.workoutName, history: workout.history));
     }
-
-    return history;
   }
 }
