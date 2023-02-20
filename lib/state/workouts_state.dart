@@ -12,4 +12,18 @@ class WorkoutsState extends ChangeNotifier {
           History(workoutName: workout.workoutName, history: workout.history));
     }
   }
+
+  void deleteHistory(historyToRemove) {
+    int workoutIndex = workouts.indexWhere(
+        ((element) => element.workoutName == historyToRemove.workoutName));
+    Workout workout = workouts
+        .where((item) => item.workoutName == historyToRemove.workoutName)
+        .toList()[0];
+    if (workout.deleted) {
+      history.remove(historyToRemove);
+    } else {
+      workouts[workoutIndex].history = [];
+    }
+    notifyListeners();
+  }
 }

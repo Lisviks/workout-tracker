@@ -16,6 +16,7 @@ class HistoryScreen extends StatelessWidget {
         title: const Text('History'),
       ),
       body: ListView(
+        key: Key(workoutState.history.length.toString()),
         children: [
           ...workoutState.history
               .map<Widget>(
