@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wortra/shared/confirm_delete.dart';
 import 'package:wortra/state/workout_state.dart';
 
 class EditWorkoutDialog extends StatefulWidget {
@@ -103,10 +104,14 @@ class _EditWorkoutDialogState extends State<EditWorkoutDialog> {
                       context.findAncestorStateOfType<NavigatorState>() ??
                           Navigator.of(context);
 
-                  await widget.workoutState
-                      .deleteWorkout(widget.workoutState.workout.id);
-
                   navState.pop();
+                  showDialog(
+                    context: context,
+                    builder: (context) => ConfirmDelete(
+                      deleteMethod: () async => await widget.workoutState
+                          .deleteWorkout(widget.workoutState.workout.id),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Delete',
