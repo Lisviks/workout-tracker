@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wortra/services/auth.dart';
-import 'package:wortra/services/firestore.dart';
 import 'package:wortra/services/models.dart';
 import 'package:wortra/state/workout_state.dart';
 import 'package:wortra/workout/workout_widget.dart';
@@ -10,10 +8,6 @@ class WorkoutScreen extends StatelessWidget {
   const WorkoutScreen({super.key, required this.workouts});
 
   final List<Workout> workouts;
-
-  Future<List<Workout>> init() async {
-    return await DB().getWorkouts(AuthService().user!.uid);
-  }
 
   @override
   Widget build(BuildContext context) {
