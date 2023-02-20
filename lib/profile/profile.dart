@@ -9,7 +9,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final workoutState = context.watch<WorkoutsState>();
+    final workoutsState = context.watch<WorkoutsState>();
 
     return Scaffold(
       appBar: AppBar(
@@ -71,26 +71,17 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             Column(
-                children: workoutState.history.map((e) {
-              int total = 0;
-              List history = e.history;
-              for (var val in history) {
-                total += val['numberDone'] as int;
-              }
-              String average = history.isNotEmpty
-                  ? (total / history.length).toStringAsFixed(2)
-                  : '0.0';
-
+                children: workoutsState.workoutAverages.map((e) {
               return Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Row(
                     children: [
                       Text(
-                        '${e.workoutName} - ',
+                        '${e["workoutName"]} - ',
                         style: const TextStyle(
                             fontSize: 14.0, fontWeight: FontWeight.bold),
                       ),
-                      Text(average),
+                      Text(e['average']),
                     ],
                   ));
             }).toList()),
