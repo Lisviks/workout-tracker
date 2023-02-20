@@ -20,7 +20,18 @@ class WorkoutHistoryWidget extends StatelessWidget {
             headerBuilder: ((context, isExpanded) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(history.workoutName),
+                child: Row(
+                  children: [
+                    Text(history.workoutName),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.delete_forever,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                  ],
+                ),
               );
             }),
             body: Padding(
