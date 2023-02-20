@@ -61,6 +61,11 @@ class DB {
     }
   }
 
+  Future<void> deleteHistory(id) async {
+    var ref = _db.collection('workouts').doc(id);
+    await ref.update({'history': []});
+  }
+
   Future<void> _updateHistory(userId) async {
     var ref = _db.collection('workouts');
     var snapshot = await ref.where('userId', isEqualTo: userId).get();

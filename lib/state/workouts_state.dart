@@ -24,6 +24,7 @@ class WorkoutsState extends ChangeNotifier {
       await DB().deleteWorkout(workout.id, workout.deleted);
       history.remove(historyToRemove);
     } else {
+      await DB().deleteHistory(workout.id);
       workouts[workoutIndex].history = [];
     }
     notifyListeners();
