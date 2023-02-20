@@ -52,9 +52,13 @@ class DB {
     await ref.update({'workoutName': workoutName, 'increment': increment});
   }
 
-  Future<void> deleteWorkout(id) async {
+  Future<void> deleteWorkout(id, deleted) async {
     var ref = _db.collection('workouts').doc(id);
-    await ref.update({'deleted': true});
+    if (deleted) {
+      await ref.delete();
+    } else {
+      await ref.update({'deleted': true});
+    }
   }
 
   Future<void> _updateHistory(userId) async {

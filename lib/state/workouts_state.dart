@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wortra/services/firestore.dart';
 import 'package:wortra/services/history_model.dart';
 import 'package:wortra/services/models.dart';
 
@@ -13,13 +14,14 @@ class WorkoutsState extends ChangeNotifier {
     }
   }
 
-  void deleteHistory(historyToRemove) {
+  Future<void> deleteHistory(historyToRemove) async {
     int workoutIndex = workouts.indexWhere(
         ((element) => element.workoutName == historyToRemove.workoutName));
     Workout workout = workouts
         .where((item) => item.workoutName == historyToRemove.workoutName)
         .toList()[0];
     if (workout.deleted) {
+      await DB().deleteWorkout(workout.id, workout.deleted);
       history.remove(historyToRemove);
     } else {
       workouts[workoutIndex].history = [];
