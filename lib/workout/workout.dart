@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wortra/services/models.dart';
 import 'package:wortra/state/workout_state.dart';
+import 'package:wortra/state/workouts_state.dart';
 import 'package:wortra/workout/workout_widget.dart';
 
 class WorkoutScreen extends StatelessWidget {
-  const WorkoutScreen({super.key, required this.workouts});
-
-  final List<Workout> workouts;
+  const WorkoutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final workoutsState = context.watch<WorkoutsState>();
+    List<Workout> workouts = workoutsState.workouts;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Workout Tracker')),
       body: Padding(
