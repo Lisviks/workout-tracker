@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wortra/services/firestore.dart';
-import 'package:wortra/services/history_model.dart';
+import 'package:wortra/history/history_model.dart';
 import 'package:wortra/services/models.dart';
 
 class WorkoutsState extends ChangeNotifier {

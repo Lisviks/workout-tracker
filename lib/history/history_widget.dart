@@ -1,38 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wortra/history/history_state.dart';
-import 'package:wortra/services/history_model.dart';
+import 'package:wortra/history/history_model.dart';
 import 'package:wortra/shared/confirm_delete.dart';
 import 'package:wortra/state/workouts_state.dart';
 
-class WorkoutHistoryWidget extends StatelessWidget {
-  const WorkoutHistoryWidget({super.key});
+class HistoryWidget extends StatefulWidget {
+  const HistoryWidget({super.key, required this.history});
+
+  final List<History> history;
 
   @override
+  State<HistoryWidget> createState() => _HistoryWidgetState();
+}
+
+class _HistoryWidgetState extends State<HistoryWidget> {
+  @override
   Widget build(BuildContext context) {
-    final historyState = context.watch<HistoryState>();
-    History history = historyState.history;
+    final List<History> history = widget.history;
     final workoutsState = context.watch<WorkoutsState>();
 
     return ExpansionPanelList(
       expansionCallback: (index, isExpanded) {
-        historyState.toggleList();
+        setState(() {
+          history[index].isExpanded = !history[index].isExpanded;
+        });
       },
-      children: [
-        ExpansionPanel(
+      children: history.map((item) {
+        return ExpansionPanel(
           headerBuilder: ((context, isExpanded) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Text(history.workoutName),
+                  Text(item.workoutName),
                   IconButton(
                     onPressed: () {
                       showDialog(
-                          context: context,
-                          builder: (context) => ConfirmDelete(
-                              deleteMethod: () =>
-                                  workoutsState.deleteHistory(history)));
+                        context: context,
+                        builder: (context) => ConfirmDelete(
+                            deleteMethod: () =>
+                                workoutsState.deleteHistory(history)),
+                      );
                     },
                     icon: const Icon(
                       Icons.delete_forever,
@@ -47,7 +55,7 @@ class WorkoutHistoryWidget extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 20.0),
             child: Column(
               children: workoutsState.workouts
-                  .where((item) => item.workoutName == history.workoutName)
+                  .where((e) => e.workoutName == item.workoutName)
                   .toList()[0]
                   .history
                   .map<Widget>((e) {
@@ -65,9 +73,9 @@ class WorkoutHistoryWidget extends StatelessWidget {
               }).toList(),
             ),
           ),
-          isExpanded: historyState.isOpen,
-        )
-      ],
+          isExpanded: item.isExpanded,
+        );
+      }).toList(),
     );
   }
 }
