@@ -39,7 +39,7 @@ class _HistoryWidgetState extends State<HistoryWidget> {
                         context: context,
                         builder: (context) => ConfirmDelete(
                             deleteMethod: () =>
-                                workoutsState.deleteHistory(history)),
+                                workoutsState.deleteHistory(item)),
                       );
                     },
                     icon: const Icon(
