@@ -108,8 +108,15 @@ class _EditWorkoutDialogState extends State<EditWorkoutDialog> {
                   showDialog(
                     context: context,
                     builder: (context) => ConfirmDelete(
-                      deleteMethod: () async => await widget.workoutState
-                          .deleteWorkout(widget.workoutState.workout.id),
+                      deleteMethod: () async {
+                        final String id = widget.workoutState.workout.id;
+                        final bool deleted =
+                            widget.workoutState.workout.history.isEmpty
+                                ? true
+                                : false;
+                        await widget.workoutState
+                            .deleteWorkout(id: id, deleted: deleted);
+                      },
                     ),
                   );
                 },
