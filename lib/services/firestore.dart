@@ -79,13 +79,23 @@ class DB {
 
     for (var workout in workouts) {
       int currentDay = now.day;
+      int currentMonth = now.month;
+      int currentYear = now.year;
       int workoutDay = DateTime.parse(workout['date'].toDate().toString()).day;
+      int workoutMonth =
+          DateTime.parse(workout['date'].toDate().toString()).month;
+      int workoutYear =
+          DateTime.parse(workout['date'].toDate().toString()).year;
 
-      if (currentDay > workoutDay && !workout['deleted']) {
+      if ((currentDay > workoutDay ||
+              currentMonth > workoutMonth ||
+              currentYear > workoutYear) &&
+          !workout['deleted']) {
         var docRef = ref.doc(workout['id']);
         var doc = await docRef.get();
         var data = doc.data() as Map;
         List history = data['history'];
+
         history.add({
           'date': data['date'],
           'numberDone': workout['current'],
